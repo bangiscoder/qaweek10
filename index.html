@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Week 10</title>
+
+    <style>
+        main {
+            width: 500px;
+            margin: auto;
+        }
+        #itemsCon {
+            width: 500px;
+            /* max-height: 300px; */
+            background-color: aliceblue;
+            overflow-y: scroll; /* Enable vertical scrolling */
+            border: 1px solid #ccc; /* Optional: adds a border for better visibility */
+            padding: 10px;
+        }
+
+        .itemself{
+            margin: 10px;
+            padding: 10px;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>3MTT Bauchi <br> Quality Assurance</h1>
+        <h3>Week 10 testsite</h3>
+    </header>
+
+    <main onload="updateItemContainer()">
+        <div class="description">
+            <p>
+                In this week we are going to dive into automation testing,
+                we will log in items in a <code>div element</code> named
+                items container.
+            </p>
+        </div>
+
+        <div id="itemsCon"></div>
+
+        <form id="itemForm">
+            <label for="item">Insert new Item: <br> 
+                <input type="text" id="item">
+                <button type="submit" id="addItem">Add Item</button>
+            </label>
+        </form>
+    </main>
+
+    <script>
+        let itemContainer = document.getElementById('itemsCon');
+        let inputText = document.getElementById('item');
+        let addBtn = document.getElementById('addItem');
+
+        let itemArray = [];
+
+        // Function to update the item container
+        function updateItemContainer() {
+            // Clear the current content
+            itemContainer.innerHTML = '';
+            // Add each item in the array as a new paragraph
+            itemArray.forEach(function(item) {
+                let container = document.createElement('div');
+                container.className = 'itemself';
+
+                let p = document.createElement('p');
+
+                p.textContent = item;
+
+                container.appendChild(p)
+                itemContainer.appendChild(container);
+
+                            // Check if the height exceeds 600px and set overflow accordingly
+    if (itemContainer.style.height > 300) {
+        itemContainer.style.overflowY = 'scroll'; // Enable scrolling if content exceeds 600px
+    } else {
+        itemContainer.style.overflowY = 'hidden'; // Hide scrolling if within limit
+    }
+            });
+        }
+
+        // Event listener for adding items
+        document.getElementById('itemForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            if (inputText.value.trim() === '') {
+                alert('Item box is empty');
+            } else {
+                // Add the item to the array and update the container
+                itemArray.push(inputText.value.trim());
+                updateItemContainer();
+                
+                // Clear the input field after adding
+                inputText.value = '';
+            }
+        });
+    </script>
+</body>
+</html>
